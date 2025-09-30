@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+echo "== list buckets"
+
+QUANTITY=${1:-'1000'}
+
+aws s3api list-buckets \
+| jq -r --argjson Q "$QUANTITY" \
+    '.Buckets | sort_by(.CreationDate) | reverse | .[0:$Q] | .[] | .Name'
